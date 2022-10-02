@@ -1,47 +1,38 @@
-﻿namespace Student_Base
+﻿using System.Windows.Forms;
+
+namespace Student_Base
 {
-    partial class Form1
+    partial class BaseForm
     {
-        /// <summary>
-        /// Обязательная переменная конструктора.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Освободить все используемые ресурсы.
-        /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Код, автоматически созданный конструктором форм Windows
-
-        /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // Form1
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 446);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion
+        private MenuStrip baseMenu;
+        private ToolStripMenuItem файлToolStripMenuItem;
+        private ToolStripMenuItem просмотрToolStripMenuItem;
+        private ToolStripMenuItem студентToolStripMenuItem;
+        private Label secondName;
+        private Label group;
+        private Label middleName;
+        private Label name;
+        private TextBox textBox1;
+        private TextBox textBox2;
+        private TextBox textBox3;
+        private TextBox textBox4;
+        private Label label1;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
+        private RadioButton radioButton3;
+        private RadioButton radioButton4;
+        private TextBox textBox5;
+        private Label subGroup;
+        private Label typeViewLabel;
+        private Label viewDescription;
+        private Button prevButtom;
+        private Button nextButtom;
+        private ToolStripMenuItem вЫбратьСтудентовToolStripMenuItem;
+        private ToolStripMenuItem магистратурыToolStripMenuItem;
+        private ToolStripMenuItem бакалавриатаToolStripMenuItem;
+        private ToolStripMenuItem редактироватьToolStripMenuItem;
+        private ToolStripMenuItem добавитьToolStripMenuItem;
+        private ToolStripMenuItem удалитьToolStripMenuItem;
     }
 }
 
