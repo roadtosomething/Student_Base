@@ -34,7 +34,7 @@
             this.radio3Curse = new System.Windows.Forms.RadioButton();
             this.radio2Curse = new System.Windows.Forms.RadioButton();
             this.radio1Curse = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
+            this.course = new System.Windows.Forms.Label();
             this.groupBox = new System.Windows.Forms.TextBox();
             this.middleNameBox = new System.Windows.Forms.TextBox();
             this.nameBox = new System.Windows.Forms.TextBox();
@@ -107,14 +107,14 @@
             this.radio1Curse.Text = "1";
             this.radio1Curse.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // course
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(73, 207);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 16);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "Курс";
+            this.course.AutoSize = true;
+            this.course.Location = new System.Drawing.Point(73, 207);
+            this.course.Name = "course";
+            this.course.Size = new System.Drawing.Size(38, 16);
+            this.course.TabIndex = 24;
+            this.course.Text = "Курс";
             // 
             // groupBox
             // 
@@ -198,6 +198,7 @@
             this.exitButtom.TabIndex = 32;
             this.exitButtom.Text = "Назад к просмотру";
             this.exitButtom.UseVisualStyleBackColor = true;
+            this.exitButtom.Click += new System.EventHandler(this.exitButtom_Click);
             // 
             // AddForms
             // 
@@ -212,7 +213,7 @@
             this.Controls.Add(this.radio3Curse);
             this.Controls.Add(this.radio2Curse);
             this.Controls.Add(this.radio1Curse);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.course);
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.middleNameBox);
             this.Controls.Add(this.nameBox);
@@ -236,7 +237,7 @@
         private System.Windows.Forms.RadioButton radio3Curse;
         private System.Windows.Forms.RadioButton radio2Curse;
         private System.Windows.Forms.RadioButton radio1Curse;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label course;
         private System.Windows.Forms.TextBox groupBox;
         private System.Windows.Forms.TextBox middleNameBox;
         private System.Windows.Forms.TextBox nameBox;

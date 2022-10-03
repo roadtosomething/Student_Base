@@ -14,28 +14,19 @@ namespace Student_Base
 {
     public partial class BaseForm : Form
     {
-
+        private DataWork dw = new DataWork();
         public BaseForm()
         {
             InitializeComponent();
+            ShowInfo(0);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-        private StudentList InitializeDataStudents()
-        {
-            FileStream file = new FileStream("StudentXMLFile.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(StudentList));
-            StudentList studentList = new StudentList();
-            studentList =(StudentList) xmlSerializer.Deserialize(file);
-            file.Close();
-            return studentList;
-        }
         private void InitializeComponent()
         {
-            
             this.baseMenu = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.просмотрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,22 +41,24 @@ namespace Student_Base
             this.group = new System.Windows.Forms.Label();
             this.middleName = new System.Windows.Forms.Label();
             this.name = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.secondNameTextBox = new System.Windows.Forms.TextBox();
+            this.nameTextBox = new System.Windows.Forms.TextBox();
+            this.midlleNameTextBox = new System.Windows.Forms.TextBox();
+            this.groupTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.firstCourseRadioButtom = new System.Windows.Forms.RadioButton();
+            this.secondCourseRadioButtom = new System.Windows.Forms.RadioButton();
+            this.thirdCourseRadioButtom = new System.Windows.Forms.RadioButton();
+            this.fourCOurseRadioButtom = new System.Windows.Forms.RadioButton();
+            this.subGroupTextBox = new System.Windows.Forms.TextBox();
             this.subGroup = new System.Windows.Forms.Label();
             this.typeViewLabel = new System.Windows.Forms.Label();
             this.viewDescription = new System.Windows.Forms.Label();
             this.prevButtom = new System.Windows.Forms.Button();
             this.nextButtom = new System.Windows.Forms.Button();
+            this.studentData = new System.Data.DataSet();
             this.baseMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.studentData)).BeginInit();
             this.SuspendLayout();
             // 
             // baseMenu
@@ -77,14 +70,14 @@ namespace Student_Base
             this.студентToolStripMenuItem});
             this.baseMenu.Location = new System.Drawing.Point(0, 0);
             this.baseMenu.Name = "baseMenu";
-            this.baseMenu.Size = new System.Drawing.Size(443, 28);
+            this.baseMenu.Size = new System.Drawing.Size(458, 28);
             this.baseMenu.TabIndex = 0;
             this.baseMenu.Text = "Главное меню";
             // 
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 26);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
             // просмотрToolStripMenuItem
@@ -92,7 +85,7 @@ namespace Student_Base
             this.просмотрToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.вЫбратьСтудентовToolStripMenuItem});
             this.просмотрToolStripMenuItem.Name = "просмотрToolStripMenuItem";
-            this.просмотрToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
+            this.просмотрToolStripMenuItem.Size = new System.Drawing.Size(94, 26);
             this.просмотрToolStripMenuItem.Text = "Просмотр";
             // 
             // вЫбратьСтудентовToolStripMenuItem
@@ -108,7 +101,7 @@ namespace Student_Base
             // 
             this.магистратурыToolStripMenuItem.CheckOnClick = true;
             this.магистратурыToolStripMenuItem.Name = "магистратурыToolStripMenuItem";
-            this.магистратурыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.магистратурыToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.магистратурыToolStripMenuItem.Text = "Магистратуры";
             this.магистратурыToolStripMenuItem.CheckedChanged += new System.EventHandler(this.магистратурыToolStripMenuItem_CheckedChanged);
             // 
@@ -118,7 +111,7 @@ namespace Student_Base
             this.бакалавриатаToolStripMenuItem.CheckOnClick = true;
             this.бакалавриатаToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.бакалавриатаToolStripMenuItem.Name = "бакалавриатаToolStripMenuItem";
-            this.бакалавриатаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.бакалавриатаToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.бакалавриатаToolStripMenuItem.Text = "Бакалавриата";
             this.бакалавриатаToolStripMenuItem.CheckedChanged += new System.EventHandler(this.бакалавриатаToolStripMenuItem_CheckedChanged);
             // 
@@ -129,7 +122,7 @@ namespace Student_Base
             this.добавитьToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.студентToolStripMenuItem.Name = "студентToolStripMenuItem";
-            this.студентToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
+            this.студентToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
             this.студентToolStripMenuItem.Text = "Студент";
             // 
             // редактироватьToolStripMenuItem
@@ -141,7 +134,7 @@ namespace Student_Base
             // добавитьToolStripMenuItem
             // 
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
             this.добавитьToolStripMenuItem.Text = "Добавить";
             this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.добавитьToolStripMenuItem_Click);
             // 
@@ -187,41 +180,37 @@ namespace Student_Base
             this.name.TabIndex = 4;
             this.name.Text = "Имя";
             // 
-            // textBox1
+            // secondNameTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(184, 66);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(169, 22);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.Text = students.Students[0].SecondName;
+            this.secondNameTextBox.Location = new System.Drawing.Point(184, 66);
+            this.secondNameTextBox.Name = "secondNameTextBox";
+            this.secondNameTextBox.ReadOnly = true;
+            this.secondNameTextBox.Size = new System.Drawing.Size(169, 22);
+            this.secondNameTextBox.TabIndex = 5;
             // 
-            // textBox2
+            // nameTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(184, 94);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(169, 22);
-            this.textBox2.TabIndex = 6;
-            this.textBox2.Text = students.Students[0].Name;
+            this.nameTextBox.Location = new System.Drawing.Point(184, 94);
+            this.nameTextBox.Name = "nameTextBox";
+            this.nameTextBox.ReadOnly = true;
+            this.nameTextBox.Size = new System.Drawing.Size(169, 22);
+            this.nameTextBox.TabIndex = 6;
             // 
-            // textBox3
+            // midlleNameTextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(184, 122);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(169, 22);
-            this.textBox3.TabIndex = 7;
-            this.textBox3.Text = students.Students[0].MiddleName;
+            this.midlleNameTextBox.Location = new System.Drawing.Point(184, 122);
+            this.midlleNameTextBox.Name = "midlleNameTextBox";
+            this.midlleNameTextBox.ReadOnly = true;
+            this.midlleNameTextBox.Size = new System.Drawing.Size(169, 22);
+            this.midlleNameTextBox.TabIndex = 7;
             // 
-            // textBox4
+            // groupTextBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(184, 150);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(169, 22);
-            this.textBox4.TabIndex = 8;
-            this.textBox4.Text = students.Students[0].Group;
+            this.groupTextBox.Location = new System.Drawing.Point(184, 150);
+            this.groupTextBox.Name = "groupTextBox";
+            this.groupTextBox.ReadOnly = true;
+            this.groupTextBox.Size = new System.Drawing.Size(169, 22);
+            this.groupTextBox.TabIndex = 8;
             // 
             // label1
             // 
@@ -232,62 +221,61 @@ namespace Student_Base
             this.label1.TabIndex = 9;
             this.label1.Text = "Курс";
             // 
-            // radioButton1
+            // firstCourseRadioButtom
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Enabled = false;
-            this.radioButton1.Location = new System.Drawing.Point(184, 220);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(35, 20);
-            this.radioButton1.TabIndex = 10;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "1";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.firstCourseRadioButtom.AutoSize = true;
+            this.firstCourseRadioButtom.Enabled = false;
+            this.firstCourseRadioButtom.Location = new System.Drawing.Point(184, 220);
+            this.firstCourseRadioButtom.Name = "firstCourseRadioButtom";
+            this.firstCourseRadioButtom.Size = new System.Drawing.Size(35, 20);
+            this.firstCourseRadioButtom.TabIndex = 10;
+            this.firstCourseRadioButtom.TabStop = true;
+            this.firstCourseRadioButtom.Text = "1";
+            this.firstCourseRadioButtom.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // secondCourseRadioButtom
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Enabled = false;
-            this.radioButton2.Location = new System.Drawing.Point(225, 220);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(35, 20);
-            this.radioButton2.TabIndex = 11;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "2";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.secondCourseRadioButtom.AutoSize = true;
+            this.secondCourseRadioButtom.Enabled = false;
+            this.secondCourseRadioButtom.Location = new System.Drawing.Point(225, 220);
+            this.secondCourseRadioButtom.Name = "secondCourseRadioButtom";
+            this.secondCourseRadioButtom.Size = new System.Drawing.Size(35, 20);
+            this.secondCourseRadioButtom.TabIndex = 11;
+            this.secondCourseRadioButtom.TabStop = true;
+            this.secondCourseRadioButtom.Text = "2";
+            this.secondCourseRadioButtom.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // thirdCourseRadioButtom
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Enabled = false;
-            this.radioButton3.Location = new System.Drawing.Point(266, 220);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(35, 20);
-            this.radioButton3.TabIndex = 12;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "3";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.thirdCourseRadioButtom.AutoSize = true;
+            this.thirdCourseRadioButtom.Enabled = false;
+            this.thirdCourseRadioButtom.Location = new System.Drawing.Point(266, 220);
+            this.thirdCourseRadioButtom.Name = "thirdCourseRadioButtom";
+            this.thirdCourseRadioButtom.Size = new System.Drawing.Size(35, 20);
+            this.thirdCourseRadioButtom.TabIndex = 12;
+            this.thirdCourseRadioButtom.TabStop = true;
+            this.thirdCourseRadioButtom.Text = "3";
+            this.thirdCourseRadioButtom.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // fourCOurseRadioButtom
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Enabled = false;
-            this.radioButton4.Location = new System.Drawing.Point(307, 220);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(35, 20);
-            this.radioButton4.TabIndex = 13;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "4";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.fourCOurseRadioButtom.AutoSize = true;
+            this.fourCOurseRadioButtom.Enabled = false;
+            this.fourCOurseRadioButtom.Location = new System.Drawing.Point(307, 220);
+            this.fourCOurseRadioButtom.Name = "fourCOurseRadioButtom";
+            this.fourCOurseRadioButtom.Size = new System.Drawing.Size(35, 20);
+            this.fourCOurseRadioButtom.TabIndex = 13;
+            this.fourCOurseRadioButtom.TabStop = true;
+            this.fourCOurseRadioButtom.Text = "4";
+            this.fourCOurseRadioButtom.UseVisualStyleBackColor = true;
             // 
-            // textBox5
+            // subGroupTextBox
             // 
-            this.textBox5.Location = new System.Drawing.Point(184, 179);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(169, 22);
-            this.textBox5.TabIndex = 15;
-            this.textBox5.Text = students.Students[0].SubGroup;
+            this.subGroupTextBox.Location = new System.Drawing.Point(184, 179);
+            this.subGroupTextBox.Name = "subGroupTextBox";
+            this.subGroupTextBox.ReadOnly = true;
+            this.subGroupTextBox.Size = new System.Drawing.Size(169, 22);
+            this.subGroupTextBox.TabIndex = 15;
             // 
             // subGroup
             // 
@@ -327,6 +315,7 @@ namespace Student_Base
             this.prevButtom.TabIndex = 18;
             this.prevButtom.Text = "Предыдущий";
             this.prevButtom.UseVisualStyleBackColor = true;
+            this.prevButtom.Click += new System.EventHandler(this.prevButtom_Click);
             // 
             // nextButtom
             // 
@@ -338,24 +327,28 @@ namespace Student_Base
             this.nextButtom.UseVisualStyleBackColor = true;
             this.nextButtom.Click += new System.EventHandler(this.nextButtom_Click);
             // 
+            // studentData
+            // 
+            this.studentData.DataSetName = "StudentData";
+            // 
             // BaseForm
             // 
-            this.ClientSize = new System.Drawing.Size(443, 308);
+            this.ClientSize = new System.Drawing.Size(458, 305);
             this.Controls.Add(this.nextButtom);
             this.Controls.Add(this.prevButtom);
             this.Controls.Add(this.viewDescription);
             this.Controls.Add(this.typeViewLabel);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.subGroupTextBox);
             this.Controls.Add(this.subGroup);
-            this.Controls.Add(this.radioButton4);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.fourCOurseRadioButtom);
+            this.Controls.Add(this.thirdCourseRadioButtom);
+            this.Controls.Add(this.secondCourseRadioButtom);
+            this.Controls.Add(this.firstCourseRadioButtom);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.groupTextBox);
+            this.Controls.Add(this.midlleNameTextBox);
+            this.Controls.Add(this.nameTextBox);
+            this.Controls.Add(this.secondNameTextBox);
             this.Controls.Add(this.name);
             this.Controls.Add(this.middleName);
             this.Controls.Add(this.group);
@@ -365,6 +358,7 @@ namespace Student_Base
             this.Name = "BaseForm";
             this.baseMenu.ResumeLayout(false);
             this.baseMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.studentData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -403,34 +397,74 @@ namespace Student_Base
         }
         private void nextButtom_Click(object sender, EventArgs e)
         {
-            StudentList studentList = new StudentList();
-            studentList = InitializeDataStudents();
-            int num = studentList.Students.Find(x => 
-            x.MiddleName.Contains(this.textBox3.Text)
-            &&x.Group.Contains(this.textBox4.Text)
-            &&x.Name.Contains(this.textBox2.Text)
-            &&x.SecondName.Contains(this.textBox1.Text)
-            &&x.SubGroup.Contains(this.textBox5.Text)).Id;
-            if (num == studentList.Students.Count)
+
+            int num = GetNumStudents(dw.ImportData());
+            if ( num== GetCount(dw.ImportData()))
             {
                 num = 0;
                 ShowInfo(num);
             }
             else
             {
-                ShowInfo(num);
+                ShowInfo(num+1);
             }
+        }
+
+        private int GetNumStudents(StudentList targetTable)
+        { 
+            return targetTable.Students.Find(x =>
+            x.MiddleName.Contains(this.midlleNameTextBox.Text)
+            && x.Group.Contains(this.groupTextBox.Text)
+            && x.Name.Contains(this.nameTextBox.Text)
+            && x.SecondName.Contains(this.secondNameTextBox.Text)
+            && x.SubGroup.Contains(this.subGroupTextBox.Text)).Id-1;
+        }
+        private int GetCount(StudentList targetTable)
+        {
+            return targetTable.Students.Count-1;
         }
 
         private void ShowInfo(int num)
         {
-            StudentList studentList = new StudentList();
-            studentList = InitializeDataStudents();
-            this.textBox1.Text = studentList.Students[num].SecondName;
-            this.textBox2.Text = studentList.Students[num].Name;
-            this.textBox3.Text = studentList.Students[num].MiddleName;
-            this.textBox4.Text = studentList.Students[num].Group;
-            this.textBox5.Text = studentList.Students[num].SubGroup;
+            StudentList studentList = dw.ImportData();
+            this.secondNameTextBox.Text = studentList.Students[num].SecondName;
+            this.nameTextBox.Text = studentList.Students[num].Name;
+            this.midlleNameTextBox.Text = studentList.Students[num].MiddleName;
+            this.groupTextBox.Text = studentList.Students[num].Group;
+            this.subGroupTextBox.Text = studentList.Students[num].SubGroup;
+            int course = studentList.Students[num].Curse;
+            switch (course)
+            {
+                case 1:
+                    firstCourseRadioButtom.Checked = true;
+                    break;
+                case 2:
+                    secondCourseRadioButtom.Checked= true;
+                    break;
+                case 3:
+                    thirdCourseRadioButtom.Checked= true;
+                    break;
+                case 4:
+                    fourCOurseRadioButtom.Checked= true;
+                    break;
+
+            }
+
+        }
+
+        private void prevButtom_Click(object sender, EventArgs e)
+        {
+            int num = GetNumStudents(dw.ImportData());
+            if (num == 0)
+            {
+                num=GetCount(dw.ImportData());
+                ShowInfo(num);
+            }
+            else
+            {
+                ShowInfo(num-1);
+            }
+
         }
     }
 }

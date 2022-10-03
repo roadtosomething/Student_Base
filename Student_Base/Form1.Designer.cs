@@ -12,16 +12,16 @@ namespace Student_Base
         private Label group;
         private Label middleName;
         private Label name;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
-        private TextBox textBox4;
+        private TextBox secondNameTextBox;
+        private TextBox nameTextBox;
+        private TextBox midlleNameTextBox;
+        private TextBox groupTextBox;
         private Label label1;
-        private RadioButton radioButton1;
-        private RadioButton radioButton2;
-        private RadioButton radioButton3;
-        private RadioButton radioButton4;
-        private TextBox textBox5;
+        private RadioButton firstCourseRadioButtom;
+        private RadioButton secondCourseRadioButtom;
+        private RadioButton thirdCourseRadioButtom;
+        private RadioButton fourCOurseRadioButtom;
+        private TextBox subGroupTextBox;
         private Label subGroup;
         private Label typeViewLabel;
         private Label viewDescription;
@@ -33,6 +33,7 @@ namespace Student_Base
         private ToolStripMenuItem редактироватьToolStripMenuItem;
         private ToolStripMenuItem добавитьToolStripMenuItem;
         private ToolStripMenuItem удалитьToolStripMenuItem;
+        private System.Data.DataSet studentData;
     }
 }
 
