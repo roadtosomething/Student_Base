@@ -1,10 +1,12 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,14 +14,21 @@ using System.Xml.Serialization;
 
 namespace Student_Base
 {
+
     public partial class BaseForm : Form
     {
-        private DataWork dw = new DataWork();
+        private static DataWork dw = new DataWork();
+        public StudentList studentList = dw.ImportData();
+        public int studentNum=0;
+        public int StudentNum()
+        {
+            return studentNum;
+        }
         public BaseForm()
         {
             InitializeComponent();
-            ShowInfo(0);
-        }
+            ShowInfo(studentNum, this.typeViewLabel.Text); 
+    }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -29,6 +38,7 @@ namespace Student_Base
         {
             this.baseMenu = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выгрузитьАктуальнуюИнформациюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.просмотрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вЫбратьСтудентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.магистратурыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,9 +66,7 @@ namespace Student_Base
             this.viewDescription = new System.Windows.Forms.Label();
             this.prevButtom = new System.Windows.Forms.Button();
             this.nextButtom = new System.Windows.Forms.Button();
-            this.studentData = new System.Data.DataSet();
             this.baseMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.studentData)).BeginInit();
             this.SuspendLayout();
             // 
             // baseMenu
@@ -76,16 +84,25 @@ namespace Student_Base
             // 
             // файлToolStripMenuItem
             // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.выгрузитьАктуальнуюИнформациюToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 26);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
             this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // выгрузитьАктуальнуюИнформациюToolStripMenuItem
+            // 
+            this.выгрузитьАктуальнуюИнформациюToolStripMenuItem.Name = "выгрузитьАктуальнуюИнформациюToolStripMenuItem";
+            this.выгрузитьАктуальнуюИнформациюToolStripMenuItem.Size = new System.Drawing.Size(347, 26);
+            this.выгрузитьАктуальнуюИнформациюToolStripMenuItem.Text = "Выгрузить актуальную информацию";
+            this.выгрузитьАктуальнуюИнформациюToolStripMenuItem.Click += new System.EventHandler(this.выгрузитьАктуальнуюИнформациюToolStripMenuItem_Click);
             // 
             // просмотрToolStripMenuItem
             // 
             this.просмотрToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.вЫбратьСтудентовToolStripMenuItem});
             this.просмотрToolStripMenuItem.Name = "просмотрToolStripMenuItem";
-            this.просмотрToolStripMenuItem.Size = new System.Drawing.Size(94, 26);
+            this.просмотрToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
             this.просмотрToolStripMenuItem.Text = "Просмотр";
             // 
             // вЫбратьСтудентовToolStripMenuItem
@@ -122,27 +139,29 @@ namespace Student_Base
             this.добавитьToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.студентToolStripMenuItem.Name = "студентToolStripMenuItem";
-            this.студентToolStripMenuItem.Size = new System.Drawing.Size(76, 26);
+            this.студентToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
             this.студентToolStripMenuItem.Text = "Студент";
             // 
             // редактироватьToolStripMenuItem
             // 
             this.редактироватьToolStripMenuItem.Name = "редактироватьToolStripMenuItem";
-            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.редактироватьToolStripMenuItem.Text = "Редактировать";
+            this.редактироватьToolStripMenuItem.Click += new System.EventHandler(this.редактироватьToolStripMenuItem_Click);
             // 
             // добавитьToolStripMenuItem
             // 
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.добавитьToolStripMenuItem.Text = "Добавить";
             this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.добавитьToolStripMenuItem_Click);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
             // secondName
             // 
@@ -327,10 +346,6 @@ namespace Student_Base
             this.nextButtom.UseVisualStyleBackColor = true;
             this.nextButtom.Click += new System.EventHandler(this.nextButtom_Click);
             // 
-            // studentData
-            // 
-            this.studentData.DataSetName = "StudentData";
-            // 
             // BaseForm
             // 
             this.ClientSize = new System.Drawing.Size(458, 305);
@@ -358,7 +373,6 @@ namespace Student_Base
             this.Name = "BaseForm";
             this.baseMenu.ResumeLayout(false);
             this.baseMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.studentData)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -375,6 +389,7 @@ namespace Student_Base
             {
                 this.typeViewLabel.Text = бакалавриатаToolStripMenuItem.Text;
             }
+            ShowInfo(studentNum, this.typeViewLabel.Text);
         }
 
         private void бакалавриатаToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -388,6 +403,8 @@ namespace Student_Base
             {
                 this.typeViewLabel.Text = магистратурыToolStripMenuItem.Text;
             }
+            studentNum = 0;
+            ShowInfo(studentNum,this.typeViewLabel.Text);
         }
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -397,74 +414,196 @@ namespace Student_Base
         }
         private void nextButtom_Click(object sender, EventArgs e)
         {
-
             int num = GetNumStudents(dw.ImportData());
             if ( num== GetCount(dw.ImportData()))
             {
                 num = 0;
-                ShowInfo(num);
+                ShowInfo(num,this.typeViewLabel.Text);
             }
             else
             {
-                ShowInfo(num+1);
+                ShowInfo(num+1,this.typeViewLabel.Text);
             }
         }
 
-        private int GetNumStudents(StudentList targetTable)
+        public int GetNumStudents(StudentList targetTable)
         { 
-            return targetTable.Students.Find(x =>
-            x.MiddleName.Contains(this.midlleNameTextBox.Text)
-            && x.Group.Contains(this.groupTextBox.Text)
-            && x.Name.Contains(this.nameTextBox.Text)
-            && x.SecondName.Contains(this.secondNameTextBox.Text)
-            && x.SubGroup.Contains(this.subGroupTextBox.Text)).Id-1;
+                if (this.typeViewLabel.Text == "Бакалавриата")
+                {
+                    this.studentNum = targetTable.BStudents.Find(x =>
+                    x.MiddleName.Contains(this.midlleNameTextBox.Text)
+                    && x.Name.Contains(this.nameTextBox.Text)
+                    && x.SecondName.Contains(this.secondNameTextBox.Text)).Id - 1;
+                    return studentNum;
+                }
+                else
+                {
+                    this.studentNum = targetTable.MStudents.Find(x =>
+                    x.MiddleName.Contains(this.midlleNameTextBox.Text)
+                    && x.Name.Contains(this.nameTextBox.Text)
+                    && x.SecondName.Contains(this.secondNameTextBox.Text)).Id - 1;
+                    return studentNum;
+                }
+
         }
         private int GetCount(StudentList targetTable)
         {
-            return targetTable.Students.Count-1;
+            if (this.typeViewLabel.Text == "Бакалавриата")
+            {
+                return targetTable.BStudents.Count - 1;
+            }
+            else
+            {
+                return targetTable.MStudents.Count - 1;
+            }
         }
 
-        private void ShowInfo(int num)
+        public void ShowInfo(int num, string type)
         {
-            StudentList studentList = dw.ImportData();
-            this.secondNameTextBox.Text = studentList.Students[num].SecondName;
-            this.nameTextBox.Text = studentList.Students[num].Name;
-            this.midlleNameTextBox.Text = studentList.Students[num].MiddleName;
-            this.groupTextBox.Text = studentList.Students[num].Group;
-            this.subGroupTextBox.Text = studentList.Students[num].SubGroup;
-            int course = studentList.Students[num].Curse;
-            switch (course)
+            int course;
+            if (type == "Бакалавриата")
             {
-                case 1:
-                    firstCourseRadioButtom.Checked = true;
-                    break;
-                case 2:
-                    secondCourseRadioButtom.Checked= true;
-                    break;
-                case 3:
-                    thirdCourseRadioButtom.Checked= true;
-                    break;
-                case 4:
-                    fourCOurseRadioButtom.Checked= true;
-                    break;
-
+                if (GetCount(studentList) >= 0)
+                {
+                    this.secondNameTextBox.Text = studentList.BStudents[num].SecondName;
+                    this.nameTextBox.Text = studentList.BStudents[num].Name;
+                    this.midlleNameTextBox.Text = studentList.BStudents[num].MiddleName;
+                    this.groupTextBox.Text = studentList.BStudents[num].Group;
+                    this.subGroupTextBox.Text = studentList.BStudents[num].SubGroup;
+                    course = studentList.BStudents[num].Curse;
+                    switch (course)
+                    {
+                        case 1:
+                            firstCourseRadioButtom.Checked = true;
+                            break;
+                        case 2:
+                            secondCourseRadioButtom.Checked = true;
+                            break;
+                        case 3:
+                            thirdCourseRadioButtom.Checked = true;
+                            break;
+                        case 4:
+                            fourCOurseRadioButtom.Checked = true;
+                            break;
+                    }
+                }
+                else
+                {
+                    this.secondNameTextBox.Text = null;
+                    this.nameTextBox.Text = null;
+                    this.midlleNameTextBox.Text = null;
+                    this.groupTextBox.Text = null;
+                    this.subGroupTextBox.Text = null;
+                    firstCourseRadioButtom.Checked = false;
+                    secondCourseRadioButtom.Checked = false;
+                    thirdCourseRadioButtom.Checked = false;
+                    fourCOurseRadioButtom.Checked = false;
+                }
+            }
+            else //if (type=="Магистратуры")
+            {
+                if (GetCount(studentList) >= 0)
+                {
+                    this.secondNameTextBox.Text = studentList.MStudents[num].SecondName;
+                    this.nameTextBox.Text = studentList.MStudents[num].Name;
+                    this.midlleNameTextBox.Text = studentList.MStudents[num].MiddleName;
+                    this.groupTextBox.Text = studentList.MStudents[num].Group;
+                    this.subGroupTextBox.Text = studentList.MStudents[num].SubGroup;
+                    course = studentList.MStudents[num].Curse;
+                    switch (course)
+                    {
+                        case 1:
+                            firstCourseRadioButtom.Checked = true;
+                            break;
+                        case 2:
+                            secondCourseRadioButtom.Checked = true;
+                            break;
+                        case 3:
+                            thirdCourseRadioButtom.Checked = true;
+                            break;
+                        case 4:
+                            fourCOurseRadioButtom.Checked = true;
+                            break;
+                    }
+                }
+                else
+                {
+                    this.secondNameTextBox.Text = null;
+                    this.nameTextBox.Text = null;
+                    this.midlleNameTextBox.Text = null;
+                    this.groupTextBox.Text = null;
+                    this.subGroupTextBox.Text = null;
+                    firstCourseRadioButtom.Checked = false;
+                    secondCourseRadioButtom.Checked = false;
+                    thirdCourseRadioButtom.Checked = false;
+                    fourCOurseRadioButtom.Checked = false;
+                }
             }
 
         }
 
         private void prevButtom_Click(object sender, EventArgs e)
         {
-            int num = GetNumStudents(dw.ImportData());
-            if (num == 0)
+            studentNum = GetNumStudents(studentList);
+            if (studentNum == 0)
             {
-                num=GetCount(dw.ImportData());
-                ShowInfo(num);
+                studentNum=GetCount(studentList);
+                ShowInfo(studentNum, this.typeViewLabel.Text);
             }
             else
             {
-                ShowInfo(num-1);
+                ShowInfo(studentNum-1, this.typeViewLabel.Text);
             }
 
+        }
+        public void UpdateInfo()
+        {
+            this.studentList = dw.ImportData();
+            ShowInfo(studentNum, this.typeViewLabel.Text);
+        }
+
+        private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RedactorForm form = new RedactorForm(GetNumStudents(studentList));
+            form.Show();
+        }
+
+        private void выгрузитьАктуальнуюИнформациюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateInfo();
+        }
+        private void DeleteStudent (StudentList stl, int num)
+        {
+            if (this.typeViewLabel.Text == "Магистратуры")
+            {
+                stl.MStudents.Remove(stl.MStudents[num]);
+                int i= 0;
+                foreach (Student student in stl.MStudents)
+                {
+                    student.Id = i + 1;
+                    i += 1;
+                }
+                dw.ExportData(stl);
+            }
+            else //if (this.typeViewLabel.Text=="Бакалавриата")
+            {
+                stl.BStudents.Remove(stl.BStudents[num]);
+                int i = 0;
+                foreach (Student student in stl.BStudents)
+                {
+                    student.Id = i + 1;
+                    i += 1;
+                }
+                dw.ExportData(stl);
+            }
+            MessageBox.Show("Студент удален из списка студентов: " + this.typeViewLabel.Text);
+            this.studentList = dw.ImportData();
+            ShowInfo(studentNum, this.typeViewLabel.Text);
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteStudent(studentList, GetNumStudents(studentList));
         }
     }
 }

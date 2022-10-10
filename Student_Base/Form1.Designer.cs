@@ -33,7 +33,7 @@ namespace Student_Base
         private ToolStripMenuItem редактироватьToolStripMenuItem;
         private ToolStripMenuItem добавитьToolStripMenuItem;
         private ToolStripMenuItem удалитьToolStripMenuItem;
-        private System.Data.DataSet studentData;
+        private ToolStripMenuItem выгрузитьАктуальнуюИнформациюToolStripMenuItem;
     }
 }
 

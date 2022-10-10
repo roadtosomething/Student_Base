@@ -14,6 +14,8 @@ namespace Student_Base
 {
     public partial class AddForms : Form
     {
+        private BaseForm form = new BaseForm();
+        private DataWork dw = new DataWork();
         public AddForms()
         {
             InitializeComponent();
@@ -26,14 +28,19 @@ namespace Student_Base
             string middleName = this.middleNameBox.Text;
             string group = this.groupBox.Text;
             string subGroup = this.subGroupBox.Text;
-            int curse = GetCurse();
             if (CheckField())
             {
-                DataWork dw = new DataWork();
-                StudentList studentList = dw.ImportData();
-                Student student = new Student(name, secondName, middleName, group, subGroup, curse, (studentList.Students.Count + 1));
-                studentList.Students.Add(student);
-                dw.ExportData(studentList);
+                if (this.sTypeBox.Text == "Бакалавр")
+                {
+                    Student student = new Student(name, secondName, middleName, group, subGroup, GetCurse(), (form.studentList.BStudents.Count + 1), GetType());
+                    form.studentList.BStudents.Add(student);
+                }
+                else
+                {
+                    Student student = new Student(name, secondName, middleName, group, subGroup, GetCurse(), (form.studentList.MStudents.Count + 1), GetType());
+                    form.studentList.MStudents.Add(student);
+                }
+                dw.ExportData(form.studentList);
                 MessageBox.Show("Информация о студенте добавлена в файл.");
             }
             else
@@ -45,18 +52,37 @@ namespace Student_Base
 
         private bool CheckField()
         {
-            if ((GetCurse() == 0)||(this.nameBox.Text is null)||(this.secondName.Text is null)||(this.group.Text is null)||(this.subGroup is null))
+            if ((GetCurse() == 0)||(this.nameBox.Text is null)||(this.secondName.Text is null)||(this.group.Text is null)||(this.subGroup is null)||GetType()=="Unknown")
             {
                 this.name.ForeColor = Color.Red;
                 this.secondName.ForeColor = Color.Red;
                 this.group.ForeColor = Color.Red;
                 this.subGroup.ForeColor = Color.Red;
                 this.course.ForeColor = Color.Red;
+                this.sTypeBox.ForeColor = Color.Red;
                 return false;
             }
             else
             {
                 return true;
+            }
+        }
+        private string GetType()
+        {
+            switch (this.sTypeBox.Text.ToLower())
+            {
+                case "магистр":
+                    return "M";
+                    break;
+                case "бакалавр":
+                    return "B";
+                    break;
+                case "абитуриент":
+                    return "A";
+                    break;
+                default:
+                    return "Unknown";
+                    break;
             }
         }
         private int GetCurse()
@@ -71,6 +97,15 @@ namespace Student_Base
         private void exitButtom_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void sTypeBox_TextChanged(object sender, EventArgs e)
+        {
+            radio1Curse.Visible = ((this.sTypeBox.Text.ToLower() == "бакалавр") || (this.sTypeBox.Text.ToLower() == "магистр"));
+            radio2Curse.Visible = ((this.sTypeBox.Text.ToLower() == "бакалавр") || (this.sTypeBox.Text.ToLower() == "магистр"));
+            radio3Curse.Visible = (this.sTypeBox.Text.ToLower() == "бакалавр");
+            radio4Curse.Visible = (this.sTypeBox.Text.ToLower() == "бакалавр");
+            
         }
     }
 }
