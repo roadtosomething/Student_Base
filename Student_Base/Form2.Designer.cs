@@ -1,4 +1,6 @@
-﻿namespace Student_Base
+﻿using System.Text;
+
+namespace Student_Base
 {
     partial class AddForms
     {
@@ -45,6 +47,7 @@
             this.secondName = new System.Windows.Forms.Label();
             this.addButtom = new System.Windows.Forms.Button();
             this.exitButtom = new System.Windows.Forms.Button();
+            this.sTypeBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // subGroupBox
@@ -73,6 +76,7 @@
             this.radio4Curse.TabStop = true;
             this.radio4Curse.Text = "4";
             this.radio4Curse.UseVisualStyleBackColor = true;
+            this.radio4Curse.Visible = false;
             // 
             // radio3Curse
             // 
@@ -84,6 +88,7 @@
             this.radio3Curse.TabStop = true;
             this.radio3Curse.Text = "3";
             this.radio3Curse.UseVisualStyleBackColor = true;
+            this.radio3Curse.Visible = false;
             // 
             // radio2Curse
             // 
@@ -95,6 +100,7 @@
             this.radio2Curse.TabStop = true;
             this.radio2Curse.Text = "2";
             this.radio2Curse.UseVisualStyleBackColor = true;
+            this.radio2Curse.Visible = false;
             // 
             // radio1Curse
             // 
@@ -106,6 +112,7 @@
             this.radio1Curse.TabStop = true;
             this.radio1Curse.Text = "1";
             this.radio1Curse.UseVisualStyleBackColor = true;
+            this.radio1Curse.Visible = false;
             // 
             // course
             // 
@@ -200,11 +207,27 @@
             this.exitButtom.UseVisualStyleBackColor = true;
             this.exitButtom.Click += new System.EventHandler(this.exitButtom_Click);
             // 
+            // sTypeBox
+            // 
+            this.sTypeBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.sTypeBox.FormattingEnabled = true;
+            this.sTypeBox.Items.AddRange(new object[] {
+            "Бакалавр",
+            "Магистр",
+            "Абитуриент"});
+            this.sTypeBox.Location = new System.Drawing.Point(148, 23);
+            this.sTypeBox.Name = "sTypeBox";
+            this.sTypeBox.Size = new System.Drawing.Size(170, 24);
+            this.sTypeBox.TabIndex = 33;
+            this.sTypeBox.Text = "<Выберите тип>";
+            this.sTypeBox.TextChanged += new System.EventHandler(this.sTypeBox_TextChanged);
+            // 
             // AddForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(330, 305);
+            this.Controls.Add(this.sTypeBox);
             this.Controls.Add(this.exitButtom);
             this.Controls.Add(this.addButtom);
             this.Controls.Add(this.subGroupBox);
@@ -248,5 +271,6 @@
         private System.Windows.Forms.Label secondName;
         private System.Windows.Forms.Button addButtom;
         private System.Windows.Forms.Button exitButtom;
+        private System.Windows.Forms.ComboBox sTypeBox;
     }
 }
